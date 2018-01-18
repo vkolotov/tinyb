@@ -1250,3 +1250,22 @@ void Java_tinyb_BluetoothDevice_delete(JNIEnv *env, jobject obj)
     }
 }
 
+int64_t Java_tinyb_BluetoothDevice_getLastUpdated(JNIEnv *env, jobject obj)
+{
+    try {
+        BluetoothDevice *obj_device =
+                getInstance<BluetoothDevice>(env, obj);
+        return static_cast<int64_t> (obj_device->get_last_updated());
+    } catch (std::bad_alloc &e) {
+        raise_java_oom_exception(env, e);
+    } catch (BluetoothException &e) {
+        raise_java_bluetooth_exception(env, e);
+    } catch (std::runtime_error &e) {
+        raise_java_runtime_exception(env, e);
+    } catch (std::invalid_argument &e) {
+        raise_java_invalid_arg_exception(env, e);
+    } catch (std::exception &e) {
+        raise_java_exception(env, e);
+    }
+    return 0;
+}

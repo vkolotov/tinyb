@@ -341,6 +341,14 @@ public class BluetoothDevice extends BluetoothObject
      */
      public native void disableServicesResolvedNotifications();
 
+    /**
+     * Returns a linux epoch timestamp that represents a time when this device was last updated
+     * by Bluez (any notification). This timestamp can be used to identify stale device objects.
+     * @return last updated linux epoch timestamp
+     */
+    public native long getLastUpdated();
+
+
     private native void delete();
 
     private BluetoothDevice(long instance)

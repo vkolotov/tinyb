@@ -31,6 +31,7 @@
 #include <vector>
 #include <functional>
 #include <map>
+#include <ctime>
 
 /* Forward declaration of types */
 struct _Object;
@@ -71,6 +72,7 @@ protected:
     std::function<void(std::map<uint16_t, std::vector<uint8_t>> &)> mfg_callback;
     std::function<void(std::map<std::string, std::vector<uint8_t>> &)> service_callback;
     std::function<void(bool)> services_resolved_callback;
+    std::time_t last_updated;
 
 public:
 
@@ -488,5 +490,12 @@ public:
      * and uninstalls any callback.
      */
     void disable_services_resolved_notifications();
+
+    /**
+     * Returns a linux epoch timestamp that represents a time when this device was last updated
+     * by Bluez (any notification). This timestamp can be used to identify stale device objects.
+     * @return last updated linux epoch timestamp
+     */
+    std::time_t get_last_updated();
 
 };

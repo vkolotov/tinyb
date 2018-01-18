@@ -40,6 +40,8 @@ void BluetoothNotificationHandler::on_properties_changed_device(GDBusProxy *prox
         return;
 
     if(g_variant_n_children(changed_properties) > 0) {
+        c->last_updated = std::time(0);
+
         GVariantIter *iter = NULL;
 
         GVariant *value;
@@ -169,6 +171,7 @@ BluetoothDevice::BluetoothDevice(Device1 *object)
     g_signal_connect(G_DBUS_PROXY(object), "g-properties-changed",
         G_CALLBACK(BluetoothNotificationHandler::on_properties_changed_device), this);
     valid = true;
+    last_updated = std::time(0);
 }
 
 BluetoothDevice::BluetoothDevice(const BluetoothDevice &object)
@@ -617,3 +620,7 @@ void BluetoothDevice::disable_services_resolved_notifications() {
     services_resolved_callback = nullptr;
 }
 
+
+std::time_t BluetoothDevice::get_last_updated() {
+    return last_updated;
+}
